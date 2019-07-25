@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,10 +30,12 @@ public class ViewProfile extends HttpServlet {
 		HttpSession session=request.getSession();
 		String from =(String)session.getAttribute("userEmail");
 		
+		
+		ServletContext context = getServletContext();
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
 			
+			
+			Connection conn = (Connection)context.getAttribute("connObj");
 			PreparedStatement ps=conn.prepareStatement("select * from UserTable where email=?");
 			ps.setString(1, from);
 			
@@ -46,6 +49,7 @@ public class ViewProfile extends HttpServlet {
 				out.println("First Name is:"+fname+"  \n\n");
 				out.println("last name is: "+lname+"  \n\n");
 				out.println("salary is :"+sal+"  \n\n");
+				
 				
 			}
 			

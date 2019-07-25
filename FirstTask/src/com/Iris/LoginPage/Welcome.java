@@ -3,6 +3,7 @@ package com.Iris.LoginPage;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,7 +30,10 @@ public class Welcome extends HttpServlet {
 		
 		out.println("<a href='ViewProfile'>View_Profile</a>");
 		out.println("<a href='UpdatePassword'>Update_Password</a>");
+		
+		
 	
+			
 	}
 
 }

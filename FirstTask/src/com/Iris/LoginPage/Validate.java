@@ -12,6 +12,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sun.corba.se.pept.transport.Connection;
+
 import java.sql.*;
 
 @WebServlet("/Validate")
@@ -26,15 +28,21 @@ public class Validate extends HttpServlet {
 		String s1=request.getParameter("email");
 		String s2=request.getParameter("pass");
 		
+		ServletContext context = getServletContext();
+		
+		String s5 = context.getInitParameter("driverName");
+		String s6 = context.getInitParameter("connString");
+		String s3 = context.getInitParameter("userName");
+		String s4 = context.getInitParameter("userPass");
+		out.println(s1+" "+s2+" "+s3+" "+s4);
 		try {
-			Class.forName("oracle.jdbc.driver.OracleDriver");
-			Connection conn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe","hr","hr");
+			
 			
 			HttpSession session=request.getSession();
 			session.setAttribute("userEmail",s1);
 			//ServletContext context=getServletContext();
-			//context.setAttribute("connObj", conn);
-			
+			//context.getAttribute("connObj");
+			Connection conn = (Connection)context.getAttribute("connObj");
 			PreparedStatement ps=conn.prepareStatement("select * from UserTable where email=? and password=?");
 			ps.setString(1,s1);
 			ps.setString(2,s2);
